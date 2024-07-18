@@ -18,10 +18,3 @@ def requestAPI(initBool: bool):
     else:
         response = requests.get(createUrl(0, lat, long, timezone)) 
     return response.json() 
-
-
-
-#check if index is at 60 to determine what data to pull
-    #if not at 60, take the previous 3 days. Otherwise just take the previous days data to add to calculations
-#if ReadIndex()['Mildex'] < 60:
-#&temperature_unit=fahrenheit&timezone=America%2FLos_Angeles&forecast_days=3
