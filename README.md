@@ -31,5 +31,5 @@ change file path of pickle in dataf to absoulte file path if using cronjob/n
 ## Todo
 Add Fields for user input LAT LONG
 
-Take 30 day forecast and 
+Take 30 day forecast and return estimated date with Risk index > 60
 
