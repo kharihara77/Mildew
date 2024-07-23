@@ -2,6 +2,17 @@
 from resources.api import requestAPI
 #function to get initial index conditions. Must have 3 straight days of temp 70-85F for 6+ hours.
 #Add 20 to index for each day. So index = 60 before starting index calulations. 
+#TODO create a Date Object that stores 24 hours of temps.
+#TODO Logic should get number of days as a parameter and create that number of objects. Adding 24 hours to each one. 
+#TODO Forecast for 30 days and add each days risk index into the day object. 
+class Day:
+    def __init__(self, temps, date) -> None:
+        self.temps=temps
+        self.date=date
+
+        def indexDelta(self) -> int:
+            pass
+
 def initIndex():
     apiData= requestAPI(True)
     temps= apiData['hourly']['temperature_2m']
