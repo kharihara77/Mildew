@@ -5,7 +5,7 @@ from email.message import EmailMessage
 
 def sendEmail(mildex, date):
     from_email = "testingemail1473011@gmail.com"
-    from_password = "nphyoguwibilgtqu"
+    from_password = ""
     to_email = "hmahesh2@gmail.com"
 
     subject = " Mildex for " + date

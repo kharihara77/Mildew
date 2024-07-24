@@ -19,5 +19,5 @@ print(type(newIndex))
 indexToWrite = { 'Mildex' : newIndex if newIndex >0 else 0 }
 print("Tommorow's Forecasted Mildew Index is: " + str(newIndex))
 writeIndex(indexToWrite)
-msg = sendEmail(newIndex, tommorow)
+#msg = sendEmail(newIndex, tommorow)
 
