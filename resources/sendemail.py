@@ -4,8 +4,8 @@ from email.mime.text import MIMEText
 from email.message import EmailMessage
 
 def sendEmail(mildex, date):
-    from_email = ""
-    from_password = ""
+    from_email = "testingemail1473011@gmail.com"
+    from_password = "nphyoguwibilgtqu"
     to_email = "hmahesh2@gmail.com"
 
     subject = " Mildex for " + date
