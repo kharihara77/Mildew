@@ -9,4 +9,7 @@ def writeIndex(newMildex):
 def ReadIndex():
     with open('/Users/karthikharihara/Documents/coding_projects/artisanvino/Mildew/mildex.pkl', 'rb') as f:
         return pickle.load(f)
+
+def resetIndex():
+    pass
   
