@@ -1,5 +1,6 @@
 
-from resources.api import requestAPI
+from datetime import datetime as dt
+#from resources.api import requestAPI
 #function to get initial index conditions. Must have 3 straight days of temp 70-85F for 6+ hours.
 #Add 20 to index for each day. So index = 60 before starting index calulations. 
 #TODO create a Date Object that stores 24 hours of temps.
@@ -7,34 +8,89 @@ from resources.api import requestAPI
 #TODO Forecast for 30 days and add each days risk index into the day object. 
 #if mildex is greater or equal to 60, start the daily calulation and update the index
 class Day:
-    def __init__(self, temps, date) -> None:
-        self.temps=temps # assume in list of 24 temps. represent 24 hours
-        self.date=date
-        self.idxDel =calDelta()
+    def __init__(self, temps: list, date: str) -> None:
+        """
+        Create a new Day object.
+
+        Parameters
+        ----------
+        temps : list
+            A list of 24 temperatures representing 24 hours.
+        date : str
+            The date of the day in the format 'YYYY-MM-DD'.
+
+        Attributes
+        ----------
+        temps : list
+            A list of 24 temperatures representing 24 hours.
+        date : str
+            The date of the day in the format 'YYYY-MM-DD'.
+        idxDel : int
+            The delta for the index based on the temperatures.
+        """
+        self.temps = temps
+        self.date = date
+        self.idxDel = self.calculate_delta()
         
-        def calDelta(self) -> int:
-            cHrs= 0 #count the # of consectuive hours between 70-85
-            mHrs=0  #Keep the highest number of consectutive hours for the day
-            highTemp = False #check if above 95f
-            idx =0
-            for temp in temps:
-                mHrs = max(cHrs, mHrs)
-                if temp >=70 and temp <=85:
-                    cHrs = cHrs + 1
-                else:
-                    cHrs=0
-                if temp >= 95:
-                    highTemp=True # verify that this is changing 
-            if mHrs>=6 and highTemp: #if 6 or more cont. hours and temp >= 95, add 10 points
-                idx = idx + 10
-            elif highTemp and mHrs<6:  #if temp >=95f, but not 6 or more cont between 70-85, sub 10
-                idx = idx - 10
-            elif mHrs>=6 and not highTemp: #if temp did not reach 95 and was between 70-85 for 6 or more cont hours, add  20 
-                idx = idx + 20
+    def calculate_delta(self) -> int:
+        """Calculate the delta for the index based on the temperatures."""
+        consecutive_hours = 0
+        max_consecutive_hours = 0
+        high_temperature_reached = False
+        delta = 0
+
+        for temp in self.temps:
+            max_consecutive_hours = max(consecutive_hours, max_consecutive_hours)
+
+            if 70 <= temp <= 85:
+                consecutive_hours += 1
             else:
-                idx = idx - 10   # temp was not between 70-85 or over 95f
-            return idx
+                consecutive_hours = 0
+
+            if temp >= 95:
+                high_temperature_reached = True
+
+        if max_consecutive_hours >= 6 and high_temperature_reached:
+            delta += 10
+        elif high_temperature_reached and max_consecutive_hours < 6:
+            delta -= 10
+        elif max_consecutive_hours >= 6 and not high_temperature_reached:
+            delta += 20
+        else:
+            delta -= 10
+
+        return delta
             
+def getDate(timestamp:str):
+    format_str = "%Y-%m-%dT%H:%M"
+    date_time = dt.strptime(timestamp, format_str)
+    return date_time.strftime('%Y-%m-%d')
+
+
+def createObjects(forecast:list):
+    #temps will be a dictionary; key1: time key2: temp via requestAPI method
+    daysLst =[] #store list of objects
+    hoursLst=[] #store ints of temps for each hour for 1 day
+    count=0 # count for counting hours in a day. 24 means 1 day has elasped.
+    for i,temp in enumerate(forecast['temperature_2m']):
+        #print(temp)
+        if count ==23: #Reached end of day. Start tracking next day
+           date=getDate(forecast['time'][i])
+           hoursLst.append(temp)
+           newDay = Day(hoursLst,date)
+           daysLst.append(newDay)
+           count=0
+           hoursLst = []
+        else:
+        #add each hour temp to hoursLst
+            hoursLst.append(temp)
+            count = count +1 
+    return daysLst 
+
+
+
+
+
 
 def initIndex():
     apiData= requestAPI(True)
