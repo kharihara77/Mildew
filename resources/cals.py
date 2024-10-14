@@ -71,7 +71,7 @@ def createObjects(forecast:list):
     #temps will be a dictionary; key1: time key2: temp via requestAPI method
     daysLst =[] #store list of objects
     hoursLst=[] #store ints of temps for each hour for 1 day
-    count=0 # count for counting hours in a day. 24 means 1 day has elasped.
+    count=0 # count for counting hours in a day. 23 means 1 day has elasped.
     for i,temp in enumerate(forecast['temperature_2m']):
         #print(temp)
         if count ==23: #Reached end of day. Start tracking next day
@@ -87,7 +87,21 @@ def createObjects(forecast:list):
             count = count +1 
     return daysLst 
 
+def calculate_forecast_risk(days: Day):
+    running_index = 0
 
+    mildex = []
+    for day in days:
+        if running_index >= 60:
+            mildex.append((running_index,day.date))
+            running_index += day.idxDel
+        else:
+            if day.idxDel != 20: 
+                running_index = 0
+            else :
+                running_index += day.idxDel
+            mildex.append((0,day.date))
+    return mildex
 
 
 

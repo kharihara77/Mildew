@@ -25,11 +25,10 @@ tommorow = (datetime.now(pst) + timedelta(1)).strftime('%Y-%m-%d')
 def singleDay():
     #temps = requestAPI
     pass
-forecast= requestAPI(45.1470196, -123.29627, "Los_Angeles", 1)
+forecast= requestAPI(45.1470196, -123.29627, "Los_Angeles", 16)
+print(forecast)
 days = createObjects(forecast)
-for day in days:
-    print(day.temps)
-    
+print(calculate_forecast_risk(days))
     
 
 

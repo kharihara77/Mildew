@@ -10,9 +10,7 @@ def requestAPI(lat:int, long:int, timezone: str, forecast:int):
     lat= 45.1470196
     long= -123.29627
     timezone = "Los_Angeles"
+    #test_url = "https://archive-api.open-meteo.com/v1/archive?latitude=45.147&longitude=-123&start_date=2024-06-01&end_date=2024-06-16&hourly=temperature_2m&temperature_unit=fahrenheit&timezone=America%2FLos_Angeles"
     url= "https://api.open-meteo.com/v1/forecast?latitude=" + str(lat) +"&longitude=" + str(long) +"&hourly=temperature_2m&temperature_unit=fahrenheit&timezone=America%2F" + timezone +"&forecast_days=" + str(forecast)
     response = requests.get(url)
     return response.json()['hourly']
-
-#https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&temperature_unit=fahrenheit&timezone=America%2FLos_Angeles&start_date=2024-08-06&end_date=2024-08-10
-
