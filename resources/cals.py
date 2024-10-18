@@ -62,6 +62,16 @@ class Day:
         return delta
             
 def getDate(timestamp:str):
+    """
+    Take a timestamp in the format '%Y-%m-%dT%H:%M' and return a string representing the date
+    in the format '%Y-%m-%d'.
+    
+    Parameters:
+    timestamp (str): The timestamp to convert.
+    
+    Returns:
+    str: The date in the format '%Y-%m-%d'.
+    """
     format_str = "%Y-%m-%dT%H:%M"
     date_time = dt.strptime(timestamp, format_str)
     return date_time.strftime('%Y-%m-%d')

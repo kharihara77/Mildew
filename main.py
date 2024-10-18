@@ -4,6 +4,7 @@ from resources.api import *
 from resources.sendemail import *
 from datetime import datetime, timedelta
 import pytz
+import json
 
 pst = pytz.timezone('US/Pacific')
 tommorow = (datetime.now(pst) + timedelta(1)).strftime('%Y-%m-%d')
@@ -25,10 +26,9 @@ tommorow = (datetime.now(pst) + timedelta(1)).strftime('%Y-%m-%d')
 def singleDay():
     #temps = requestAPI
     pass
-forecast= requestAPI(45.1470196, -123.29627, "Los_Angeles", 16)
-print(forecast)
+forecast= requestAPI(45.1470196, -123.29627, "Los_Angeles", 10)
 days = createObjects(forecast)
-print(calculate_forecast_risk(days))
-    
+lst = calculate_forecast_risk(days)
+print(json.dumps(lst)) 
 
 
